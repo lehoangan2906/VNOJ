@@ -73,10 +73,47 @@ char BUF[BUFSIZE+1], *inp=BUF;
     if (AM) j=-j;\
 }
 
+// y tuong: dung dfs duyet cac dinh, dinh nao co so node con >= k thi xoa dinh do 
+
+int k, n, res;
+const int MN = 10111;
+vector<int> ke[MN];
+
+int dfs(int u){
+    int sz = 1;
+
+    for (int v : ke[u]){
+        sz += dfs(v);
+    }
+
+    if (sz >= k){
+        res++;
+        sz = 0;
+    }
+
+    return sz;
+}
+
 int32_t main() {
     ios::sync_with_stdio(0); cin.tie(0);
-    // input
     
+    // input
+    while(cin >> k >> n){
+        for (int i = 1; i <= n; i++){
+            ke[i].clear();
+        }
+
+        for (int i = 2; i <= n; i++){
+            int pi;
+            cin >> pi;
+            ke[pi].push_back(i);
+        }
+
+        res = 0;
+        dfs(1);
+        cout << res << endl;
+    }
+   
 
     return 0;
 }
